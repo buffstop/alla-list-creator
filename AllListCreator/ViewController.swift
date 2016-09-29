@@ -22,6 +22,8 @@ class ViewController: NSViewController {
         return url
     }
   
+     //MARK - 
+    
     func rowUserHasLeftTheBuildingLongAgo(forRow row: [(key: String, value: String)]) -> Bool {
         let austrittsDateDictArray = row.filter {
             let key = $0.key
@@ -69,8 +71,25 @@ class ViewController: NSViewController {
         
         return withoutLongGoneUsers
     }
+
+    // sortr collumns to final order
+    func sortCollums(keyedRows: [ [(key: String, value: String)] ]) -> [[(key: String, value: String)]] {
+        return keyedRows.map {
+            let row = $0
+            var sortedRow = [(key: String, value: String)]()
+            for wantedCollum in wantedCollumns {
+                for entryDict in row {
+                    if entryDict.key == wantedCollum {
+                        sortedRow.append(entryDict)
+                    }
+                }
+            }
+            return sortedRow
+        }
+    }
     
     //MARK -
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         let url = openFile()
@@ -81,8 +100,11 @@ class ViewController: NSViewController {
             var keyedRows = csv.keyedRows
             //remove unwanted collumns
             let wantedKeyedRows = removeUnwanted(fromKeyedRows: keyedRows!)
+            let sortedCollumnsKeydRows = sortCollums(keyedRows: wantedKeyedRows)
             
-            print("wantedKeyedRows: \(wantedKeyedRows)")
+            
+            
+            print("sortedCollumnsKeydRows: \(sortedCollumnsKeydRows)")
         } catch {
             fatalError("Somthing went wrong")
         }
