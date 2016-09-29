@@ -179,10 +179,7 @@ class ViewController: NSViewController {
             targetUrl?.deleteLastPathComponent()
             targetUrl?.appendPathComponent(tagetFileName)
             try finalCsvString.write(to: targetUrl!, atomically: true, encoding: String.Encoding.isoLatin1)
-            
-            print("sortedCollumnsKeydRows: \n\(sortedCollumnsKeydRows)")
-            
-            
+//            print("finalCsvString: \n\(finalCsvString)")
         } catch {
             fatalError("Somthing went wrong")
         }
@@ -194,7 +191,5 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
-
 }
 
