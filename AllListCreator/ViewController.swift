@@ -17,9 +17,9 @@ class ViewController: NSViewController {
     //MARK - 
     
     func openFile() -> URL{
-        let myFileDialog: NSOpenPanel = NSOpenPanel()
-        myFileDialog.runModal()
-        let url = (myFileDialog.url)!
+        let fileDialog = NSOpenPanel()
+        fileDialog.runModal()
+        let url = (fileDialog.url)!
 
         return url
     }
