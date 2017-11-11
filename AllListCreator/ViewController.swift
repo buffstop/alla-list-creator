@@ -11,7 +11,7 @@ import CSwiftV
 
 class ViewController: NSViewController {
     let tagetFileName = "zz_processed_mitglieder.csv"
-    let wantedCollumns = ["OS-Ort", "Besch.St.", "MDB-Nr.", "Anrede", "Name", "Vorname", "Geb.Datum", "Straße", "PLZ", "Wohnort", "Austritt", "Eintritt"]
+    let wantedCollumns = ["OS-Ort", "Besch.Stelle", "MDB-Nr.", "Anrede", "Name", "Vorname", "Geburtsdatum", "FSTRASSE", "FPLZ", "FORT"/*, "Austritt"*/, "Eintrittsdatum"]
     var rootUrl: URL?
 
     //MARK - 
@@ -26,36 +26,6 @@ class ViewController: NSViewController {
   
      //MARK - 
     
-    func rowUserHasLeftTheBuildingLongAgo(forRow row: [(key: String, value: String)]) -> Bool {
-        let austrittsDateDictArray = row.filter {
-            let key = $0.key
-            if key == "Austritt" {
-                return true
-            } else {
-                return false
-            }
-        }
-        
-        if !austrittsDateDictArray.isEmpty {
-            let austrittsDateString = austrittsDateDictArray.first?.value
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "dd.MM.yyyy" //"30.09.2012"
-            let autrittsDate = dateFormatter.date(from: austrittsDateString!)
-            let today = Date()
-            
-            let calendar = NSCalendar.current
-
-            let autrittYear = calendar.component(Calendar.Component.year, from: autrittsDate!)
-            let thisYear = calendar.component(Calendar.Component.year, from: today)
-            
-            if  autrittYear < thisYear {
-                return true
-            }
-        }
-
-        return false
-    }
-    
     func removeUnwanted(fromKeyedRows keyedRows:[[String:String]]) -> [[(key: String, value: String)]] {
         // remove unwanted collumns
         let onlyWantedCollumns = keyedRows.map {
@@ -64,13 +34,7 @@ class ViewController: NSViewController {
                 return wantedCollumns.contains(key)
             }
         }
-        
-        // remove ausgetreten vor >= 1 Jahr
-        let withoutLongGoneUsers = onlyWantedCollumns.filter {
-            return !rowUserHasLeftTheBuildingLongAgo(forRow: $0)
-        }
-        
-        return withoutLongGoneUsers
+        return onlyWantedCollumns
     }
 
     // sortr collumns to final order
